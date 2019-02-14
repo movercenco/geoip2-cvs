@@ -26,7 +26,7 @@ class Manager
    * @param string $input_file
    * @param string $output_file
    */
-  public function process($input_file, $output_file)
+  public function process($input_file, $output_file): void
   {
     $output_file_open = fopen($output_file, 'wb+');
 
@@ -51,7 +51,7 @@ class Manager
    *
    * @return \Generator
    */
-  protected function readFromCsv($input_file)
+  protected function readFromCsv($input_file): ?\Generator
   {
     $input_file_open = fopen($input_file, 'rb');
     while (!feof($input_file_open)) {

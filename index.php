@@ -17,10 +17,7 @@ if (!file_exists($input_file)) {
   exit("Input file doen't exist ($input_file)");
 }
 
-$output_file = OUTPUT_DIR . 'output_' . (new DateTime())->format('_d_m_Y_H_i_s') . '.csv';
-if (isset($argv[2])) {
-  $output_file = $argv[2];
-}
+$output_file = $argv[2] ?? OUTPUT_DIR . 'output_' . (new DateTime())->format('_d_m_Y_H_i_s') . '.csv';
 
 $reader = ReaderFactory::getCountryReader();
 $manager = new Manager($reader);
