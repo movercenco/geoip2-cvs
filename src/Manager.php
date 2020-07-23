@@ -31,14 +31,16 @@ class Manager
     $output_file_open = fopen($output_file, 'wb+');
 
     foreach ($this->readFromCsv($input_file) as $row) {
-      $ip = end($row);
-      try {
-        $record = $this->reader->country($ip);
-        $country_name = $record->country->name;
-      } catch (Exception $e) {
-        $country_name = $ip;
+      $ip = $row[0];
+      if (filter_var($ip, FILTER_VALIDATE_IP)) {
+        try {
+          $record = $this->reader->country($ip);
+          $country_name = $record->country->name;
+        } catch (Exception $e) {
+          $country_name = 'Private IP address.';
+        }
+        $row[] = $country_name;
       }
-      $row[] = $country_name;
 
       fputcsv($output_file_open, $row);
     }
@@ -55,9 +57,7 @@ class Manager
   {
     $input_file_open = fopen($input_file, 'rb');
     while (!feof($input_file_open)) {
-      $row = array_map('trim', (array)fgetcsv($input_file_open, 8192));
-
-      yield $row;
+      yield array_map('trim', (array)fgetcsv($input_file_open, 8192));
     }
 
     fclose($input_file_open);

@@ -17,4 +17,9 @@ class ReaderFactory
   {
     return new Reader(self::DB_LOCATION . 'GeoLite2-City.mmdb');
   }
+
+  public static function getASNReader()
+  {
+    return new Reader(self::DB_LOCATION . 'GeoLite2-ASN.mmdb');
+  }
 }
